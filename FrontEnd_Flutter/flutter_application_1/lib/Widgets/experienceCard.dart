@@ -31,13 +31,13 @@ class ExperienceCard extends StatelessWidget {
               'Propietario:',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text('Nombre: ${experience.owner}'),
+            Text(experience.owner), // Ya está formateado como string
             const SizedBox(height: 8),
             Text(
               'Participantes:',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text(experience.participants),
+            Text(experience.participants), // Ya está formateado como string
             const SizedBox(height: 16),
             Align(
               alignment: Alignment.centerRight,

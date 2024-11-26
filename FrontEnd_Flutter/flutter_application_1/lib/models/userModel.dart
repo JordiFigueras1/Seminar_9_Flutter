@@ -1,40 +1,34 @@
 import 'package:flutter/material.dart';
 
 class UserModel with ChangeNotifier {
-  String _name;
-  String _mail;
-  String _password;
-  String _comment;
+  String? id; // Ahora id es opcional
+  String name;
+  String mail;
+  String password;
+  String comment;
 
   // Constructor
-  UserModel(
-      {required String name,
-      required String mail,
-      required String password,
-      required String comment})
-      : _name = name,
-        _mail = mail,
-        _password = password,
-        _comment = comment;
+  UserModel({
+    this.id, // id es opcional
+    required this.name,
+    required this.mail,
+    required this.password,
+    required this.comment,
+  });
 
-  // Getters
-  String get name => _name;
-  String get mail => _mail;
-  String get password => _password;
-  String get comment => _comment;
-
-  // Método para actualizar el usuario
+  // Método para actualizar los atributos del usuario
   void setUser(String name, String mail, String password, String comment) {
-    _name = name;
-    _mail = mail;
-    _password = password;
-    _comment = comment;
+    this.name = name;
+    this.mail = mail;
+    this.password = password;
+    this.comment = comment;
     notifyListeners();
   }
 
-  // Método fromJson para crear una instancia de UserModel desde un Map
+  // Método para convertir desde JSON
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
+      id: json['_id'] ?? json['id'], // Acepta _id o id
       name: json['name'] ?? 'Usuario desconocido',
       mail: json['mail'] ?? 'No especificado',
       password: json['password'] ?? 'Sin contraseña',
@@ -42,13 +36,14 @@ class UserModel with ChangeNotifier {
     );
   }
 
-  // Método toJson para convertir una instancia de UserModel en un Map
+  // Método para convertir a JSON
   Map<String, dynamic> toJson() {
     return {
-      'name': _name,
-      'mail': _mail,
-      'password':_password,
-      'comment': _comment,
+      if (id != null) '_id': id, // Incluye id si no es null
+      'name': name,
+      'mail': mail,
+      'password': password,
+      'comment': comment,
     };
   }
 }

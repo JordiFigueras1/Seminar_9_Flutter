@@ -52,13 +52,15 @@ class RegisterPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     registerController.errorMessage.value,
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: Colors.red, fontSize: 16),
+                    textAlign: TextAlign.center,
                   ),
                 );
               } else {
                 return Container();
               }
             }),
+
 
             SizedBox(height: 16),
             

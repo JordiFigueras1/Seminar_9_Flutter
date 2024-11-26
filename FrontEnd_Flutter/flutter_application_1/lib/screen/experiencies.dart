@@ -10,13 +10,13 @@ class ExperienciesPage extends StatefulWidget {
 }
 
 class _ExperienciesPageState extends State<ExperienciesPage> {
-  final ExperienceController experienceController = Get.put(ExperienceController());
   final ExperienceListController experienceListController = Get.put(ExperienceListController());
+  final ExperienceController experienceController = Get.put(ExperienceController());
 
   @override
   void initState() {
     super.initState();
-    experienceListController.fetchExperiences(); // Asegúrate de obtener experiencias al iniciar la página.
+    experienceListController.fetchExperiences(); // Carga inicial de experiencias
   }
 
   @override
@@ -35,16 +35,19 @@ class _ExperienciesPageState extends State<ExperienciesPage> {
                 } else if (experienceListController.experienceList.isEmpty) {
                   return Center(child: Text("No hay experiencias disponibles"));
                 } else {
-                  return ListView.builder(
-                    itemCount: experienceListController.experienceList.length,
-                    itemBuilder: (context, index) {
-                      final experience = experienceListController.experienceList[index];
-                      return ExperienceCard(
-                        experience: experience,
-                        onDelete: () => experienceListController.deleteExperienceByDescription(experience.description),
-                      );
-                    },
-                  );
+    return ListView.builder(
+      itemCount: experienceListController.experienceList.length,
+      itemBuilder: (context, index) {
+        final experience = experienceListController.experienceList[index];
+        return ExperienceCard(
+          experience: experience,
+          onDelete: () async {
+          await experienceListController.deleteExperienceById(experience.id!);
+            await experienceListController.fetchExperiences(); // Refresca la lista
+          },
+        );
+      },
+    );
                 }
               }),
             ),
@@ -61,7 +64,7 @@ class _ExperienciesPageState extends State<ExperienciesPage> {
   }
 }
 
-// Widget reutilizable para el formulario de experiencia
+// Formulario reutilizable para crear experiencias
 class ExperienceForm extends StatelessWidget {
   final ExperienceController experienceController;
 
@@ -80,21 +83,18 @@ class ExperienceForm extends StatelessWidget {
           controller: experienceController.ownerController,
           decoration: InputDecoration(
             labelText: 'Propietario',
-            errorText: experienceController.ownerError.value,
           ),
         ),
         TextField(
           controller: experienceController.participantsController,
           decoration: InputDecoration(
             labelText: 'Participantes',
-            errorText: experienceController.participantsError.value,
           ),
         ),
         TextField(
           controller: experienceController.descriptionController,
           decoration: InputDecoration(
             labelText: 'Descripción',
-            errorText: experienceController.descriptionError.value,
           ),
         ),
         SizedBox(height: 16),
