@@ -8,13 +8,14 @@ import 'package:flutter_application_1/screen/register.dart';
 import 'package:flutter_application_1/screen/user.dart';
 import 'package:flutter_application_1/screen/home.dart';
 import 'package:flutter_application_1/controllers/experiencesListController.dart';
+import 'package:flutter_application_1/controllers/userListController.dart';
 
 
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(ExperienceListController(), permanent: true);
-
+  Get.put(UserListController(), permanent: true);
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
